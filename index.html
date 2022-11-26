@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tester</title>
-    <script type="text/javasctipt" src="/tasks/script.js"></script>
+    <title>Tasks</title>
+    <script type="text/javasctipt" src="/tasks/index.js"></script>
 </head>
 <body>
     <script>
@@ -76,37 +76,42 @@
         // };
         // console.log(fn.task1('1234567890abcd', 10)); //a2b4c6d8
     </script>
-
     <script>
+
+
         // Функции
-        //1. Cформировать и вывести строку из 10 символов. На четных позициях - четные цифры,
+        // Cформировать и вывести строку из 10 символов. На четных позициях - четные цифры,
         // на нечетных - буквы. Данные: "1234567890абвгд"
+        // выводить пустой символ если значение по условию некоректно или не находит значение (undefined), 
+        // таким образом строка сама себя обрезает если она короче 10 символов.
         const fn = {
             task1: (str) => {
                 let answer = "";
-                let strNumbers = str.replace(/[а-я,1,3,5,7,9]/ig, "");
+                let strNumbers = str.replace(/[а-яА-Я13579 a-zA-Z;%$]/ig, "");
                 let strLetters = str.replace(/\d/g, "");
-                for(let i = 0; i < strLetters.length; i++) {
-                answer += strLetters.at(i) + strNumbers.at(i);
+                for(let i = 0; i < str.length; i++) {
+                    if (typeof answer !== 'undefined') {
+                        answer = answer.replace(/[undefined$]/ig, " ")
+                        answer += strLetters.at(i) + strNumbers.at(i);
+                        
+                    }
+                    else {
+                        answer += strLetters.at(i) + strNumbers.at(i);  
+                    }               
                 }
-                return answer;
+                    return answer.slice(0, 10);
             },
         //2. Создать функцию вывода номеров символов, совпадающих с последним символом строки
             task2: (str) => {
-                // получаем последний символ строки и присваиваем ему переменную
                 let lastSymbol = str.at(-1);
-                // результат вывода
                 let result = [];
-                // цикл for что будет считать номер символов совпадающих с lastChar и 
-                // добавлять в массив их номер, а затем вернёт значение массива.
                 for(let i = 0; i < str.length; i++){
                     if (str[i] === lastSymbol){
                         result.push(i);
                     }                  
                 }
-                // удаляем последний элемент массива
                 result.pop()
-                // превращение элементов массива в элементы строки с помощью разделителя указанного в качестве аргумента '....'
+                // превращение элементов массива в элементы строки с помощью разделителя указанного в качестве аргумента ', '
                 return result.join(', ')
             }, 
 
@@ -131,8 +136,9 @@
             task1: "1234567890абвгд",
             task1_2: "1535оф238оып9ф2м4м6ии5251",
             task1_3: "qwerty123456789asdfgh",
-            task1_4: "v285abi3$ 42 55a 2a4  2kgaqqqW",
+            task1_4: "v285abi3$ 42 55a 3a3  1kgaqqq8W",
             task1_5: "фои5Иищ5ф;М  59И Г%Ф52ф240и",
+            task1_6: "ab246",
 
             task2: "123д4567д890фбвгд",
             task2_2: "123121", 
@@ -149,13 +155,15 @@
             task3_6: "",
             task3_7: " ",
         };
-
+  
+        
         console.log(fn.task1(data.task1))
         console.log(fn.task1(data.task1_2))
         console.log(fn.task1(data.task1_3))
         console.log(fn.task1(data.task1_4))
         console.log(fn.task1(data.task1_5))
-        console.log('')
+        console.log(fn.task1(data.task1_6))
+        console.log('                        <--- next task --->')
 
         console.log(fn.task2(data.task2))
         console.log(fn.task2(data.task2_2))
@@ -163,7 +171,7 @@
         console.log(fn.task2(data.task2_4))
         console.log(fn.task2(data.task2_5))
         console.log(fn.task2(data.task2_6))
-        console.log('')
+        console.log('                        <--- next task --->')
 
         console.log(fn.task3(data.task3))
         console.log(fn.task3(data.task3_2))
@@ -172,6 +180,44 @@
         console.log(fn.task3(data.task3_5))
         console.log(fn.task3(data.task3_6))
         console.log(fn.task3(data.task3_7))
+        console.log('                        <--- next task --->')
+
+    </script>
+    <script>
+        const data2 = {
+            task10: "10аб456вг378д29",
+            task20: "12341414141",
+            task30: "123456789"
+        };
+
+        // Function
+        const fn2 = {
+            task10: (str) => {
+                const filtered = { num: [], sym: [] };
+                let result = "";
+                for (let val of str)
+                    if (/\d/.test(val) && !(val % 2)) filtered.num.push(val);
+                    else if (/[а-я]/.test(val)) filtered.sym.push(val);
+                for (let i = 0; i < 5; i++) result += filtered.sym[i] + filtered.num[i];
+                return result;
+            },
+            task20: (str) => {
+                if (!str) return null;
+                const lastSymbol = str.at(-1);
+                const result = [];
+                for (let i = 0; i < str.length; i++)
+                    if (str[i].toLowerCase() === lastSymbol) result.push(i + 1);
+                return result;
+            },
+            task30: (str) => [...str].filter((val, i) => !((i + 1) % 3))
+        }
+
+        // Вывод
+        console.log(fn2.task10(data2.task10))
+        console.log('                        <--- next task --->')
+        console.log(fn2.task20(data2.task20))
+        console.log('                        <--- next task --->')
+        console.log(fn2.task30(data2.task30))
     </script>
 </body>
 </html>
